@@ -1,0 +1,7 @@
+Instrucciones para hacer el test Login:
+1- Restaurar la bd. 
+2- Abrir el proyecto ingesoft2 en Netbeans.
+3- Ejecutar el archivo login.xhtml
+4- Datos de prueba: 
+Usuario: Guillermo
+Password: 12345
