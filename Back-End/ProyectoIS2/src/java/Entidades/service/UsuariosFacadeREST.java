@@ -44,12 +44,13 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
     }
 
     @POST//servicio restful login
-    @Path("/login/{usr}/{pwd}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Usuarios login(@PathParam("usr") String usr, @PathParam("pwd") String pwd) {
+    @Path("/login")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Usuarios login(Usuarios user) {
         TypedQuery<Usuarios> query =getEntityManager().createNamedQuery("Usuarios.findByLogin", Usuarios.class);
-        query.setParameter("usuario", usr);
-        query.setParameter("password", pwd);
+        query.setParameter("usuario", user.getUsuario());
+        query.setParameter("password", user.getPassword());
         Usuarios usuario = query.getSingleResult();
         return usuario;
     }
@@ -69,14 +70,14 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
 
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Usuarios find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<Usuarios> findAll() {
         return super.findAll();
     }
