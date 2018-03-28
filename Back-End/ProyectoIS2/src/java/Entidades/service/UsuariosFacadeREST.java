@@ -9,6 +9,7 @@ import Entidades.Usuarios;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
@@ -51,8 +52,14 @@ public class UsuariosFacadeREST extends AbstractFacade<Usuarios> {
         TypedQuery<Usuarios> query =getEntityManager().createNamedQuery("Usuarios.findByLogin", Usuarios.class);
         query.setParameter("usuario", user.getUsuario());
         query.setParameter("password", user.getPassword());
-        Usuarios usuario = query.getSingleResult();
-        return usuario;
+       
+        try {
+            Usuarios usuario = query.getSingleResult();
+            return usuario;
+        } catch (NoResultException e) {
+            return null;
+        }
+        
     }
     
     @PUT
