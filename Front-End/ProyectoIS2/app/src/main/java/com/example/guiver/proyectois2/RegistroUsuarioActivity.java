@@ -18,46 +18,40 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
-    //se utilizara como clave para el valor a enviar a traves del intent
-    public static final String EXTRA_MESSAGE = "com.example.guiver.proyectois2.MESSAGE";
-    public static final String URL_BASE = "http://192.168.1.2:8080/ProyectoIS2/webresources";
+public class RegistroUsuarioActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_registro_usuario);
+        Intent intent = getIntent();
     }
 
     /*Metodo que sera llamado cuando el usuario haga click en el boton login*/
-    public void validarLogin(View view){
-        //Intent intent = new Intent(this, DisplayMenuActivity.class);
-        Intent intent = new Intent(this, MenuActivity.class);
+    public void registrar(View view){
+
         //recupera los valores ingresados por el usuario
-        EditText editTextUserName = (EditText) findViewById(R.id.editText);
-        EditText editTextPassword = (EditText) findViewById(R.id.editText2);
-        String message;
+        EditText editTextUserName = (EditText) findViewById(R.id.editText3);
+        EditText editTextPassword = (EditText) findViewById(R.id.editText4);
+        int resp;
         //crea el objeto json que se enviara con la peticion
-        JSONObject loginParams = new JSONObject();
+        JSONObject userParams = new JSONObject();
 
         try {
-            loginParams.put("password", editTextPassword.getText().toString());
-            loginParams.put("usuario", editTextUserName.getText().toString());
+            userParams.put("password", editTextPassword.getText().toString());
+            userParams.put("usuario", editTextUserName.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         try {
-            String url = URL_BASE + "/entidades.usuarios/login";
-            message = executePost(url, loginParams.toString());
-            if (message.equals("")){
-                Toast.makeText(this,"Login fallido", 5).show();
+            String url = MainActivity.URL_BASE + "/entidades.usuarios";
+            resp = executePost(url, userParams.toString());
+            if (resp != 204){
+                Toast.makeText(this,"Error, no se pudo completar el registro", 5).show();
                 return;
             }
-            intent.putExtra(EXTRA_MESSAGE, editTextUserName.getText().toString());
-            startActivity(intent);
+            Toast.makeText(this,"Registro exitoso", 5).show();
         }
         catch(NullPointerException e){
             Toast.makeText(this,"No se pudo conectar con el servidor", 5).show();
@@ -67,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*Metodo que realiza la conexion con el servidor y solicita el servicio post del login*/
-    public String executePost(String targetURL,String urlParameters) {
+    public int executePost(String targetURL,String urlParameters) {
         int timeout=5000;
         URL url;
         HttpURLConnection connection = null;
@@ -92,20 +86,10 @@ public class MainActivity extends AppCompatActivity {
             wr.flush();
             wr.close();
 
-            // obtiene la respuesta
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            return response.toString();
+            return connection.getResponseCode();
 
         } catch (Exception e) {
-            Toast.makeText(this,"Error de conexión.", 10).show();
+            Toast.makeText(this,"Error de conexión", 10).show();
             e.printStackTrace();
         } finally {
 
@@ -113,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 connection.disconnect();
             }
         }
-        return null;
+        return 1;
     }
+
 }

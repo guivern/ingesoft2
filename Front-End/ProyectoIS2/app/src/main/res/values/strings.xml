@@ -3,4 +3,14 @@
     <string name="user">Username</string>
     <string name="pwd">Password</string>
     <string name="button_login">Login</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="button_usuarios">Usuarios</string>
+    <string name="button_tareas">Tareas</string>
+    <string name="button_salir">Salir</string>
+    <string name="nombre">Nombre de usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="registro_de_usuarios">Registro de Usuarios</string>
+    <string name="ingrese_los_siguientes_datos">Ingrese los siguientes datos:</string>
 </resources>
