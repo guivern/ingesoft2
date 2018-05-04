@@ -29,7 +29,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(Entidades.service.SprintsFacadeREST.class);
+        resources.add(Entidades.service.EstadosFacadeREST.class);
         resources.add(Entidades.service.TareasFacadeREST.class);
         resources.add(Entidades.service.UsuariosFacadeREST.class);
     }

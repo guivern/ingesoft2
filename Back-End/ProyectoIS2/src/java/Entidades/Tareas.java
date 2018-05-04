@@ -6,6 +6,7 @@
 package Entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,9 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Tareas.findAll", query = "SELECT t FROM Tareas t")
     , @NamedQuery(name = "Tareas.findByNroTarea", query = "SELECT t FROM Tareas t WHERE t.nroTarea = :nroTarea")
-    , @NamedQuery(name = "Tareas.findByTituloTarea", query = "SELECT t FROM Tareas t WHERE t.tituloTarea = :tituloTarea")
-    , @NamedQuery(name = "Tareas.findByDescripcion", query = "SELECT t FROM Tareas t WHERE t.descripcion = :descripcion")
-    , @NamedQuery(name = "Tareas.findByEstado", query = "SELECT t FROM Tareas t WHERE t.estado = :estado")})
+    , @NamedQuery(name = "Tareas.findByFechaFin", query = "SELECT t FROM Tareas t WHERE t.fechaFin = :fechaFin")
+    , @NamedQuery(name = "Tareas.findByTitulo", query = "SELECT t FROM Tareas t WHERE t.titulo = :titulo")
+    , @NamedQuery(name = "Tareas.findByDescripcion", query = "SELECT t FROM Tareas t WHERE t.descripcion = :descripcion")})
 public class Tareas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,21 +47,25 @@ public class Tareas implements Serializable {
     private Integer nroTarea;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "fecha_fin")
+    @Temporal(TemporalType.DATE)
+    private Date fechaFin;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 2147483647)
-    @Column(name = "titulo_tarea")
-    private String tituloTarea;
-    @Size(max = 2147483647)
+    @Column(name = "titulo")
+    private String titulo;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
     @Column(name = "descripcion")
     private String descripcion;
-    @Size(max = 2147483647)
-    @Column(name = "estado")
-    private String estado;
-    @JoinColumn(name = "nro_sprint", referencedColumnName = "nro_sprint")
+    @JoinColumn(name = "tarea_nro_estado", referencedColumnName = "nro_estado")
     @ManyToOne(optional = false)
-    private Sprints nroSprint;
-    @JoinColumn(name = "nro_usuario", referencedColumnName = "nro_usuario")
+    private Estados tareaNroEstado;
+    @JoinColumn(name = "nro_usuario_fk", referencedColumnName = "nro_usuario")
     @ManyToOne(optional = false)
-    private Usuarios nroUsuario;
+    private Usuarios nroUsuarioFk;
 
     public Tareas() {
     }
@@ -67,9 +74,11 @@ public class Tareas implements Serializable {
         this.nroTarea = nroTarea;
     }
 
-    public Tareas(Integer nroTarea, String tituloTarea) {
+    public Tareas(Integer nroTarea, Date fechaFin, String titulo, String descripcion) {
         this.nroTarea = nroTarea;
-        this.tituloTarea = tituloTarea;
+        this.fechaFin = fechaFin;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
     }
 
     public Integer getNroTarea() {
@@ -80,12 +89,20 @@ public class Tareas implements Serializable {
         this.nroTarea = nroTarea;
     }
 
-    public String getTituloTarea() {
-        return tituloTarea;
+    public Date getFechaFin() {
+        return fechaFin;
     }
 
-    public void setTituloTarea(String tituloTarea) {
-        this.tituloTarea = tituloTarea;
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getDescripcion() {
@@ -96,28 +113,20 @@ public class Tareas implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getEstado() {
-        return estado;
+    public Estados getTareaNroEstado() {
+        return tareaNroEstado;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setTareaNroEstado(Estados tareaNroEstado) {
+        this.tareaNroEstado = tareaNroEstado;
     }
 
-    public Sprints getNroSprint() {
-        return nroSprint;
+    public Usuarios getNroUsuarioFk() {
+        return nroUsuarioFk;
     }
 
-    public void setNroSprint(Sprints nroSprint) {
-        this.nroSprint = nroSprint;
-    }
-
-    public Usuarios getNroUsuario() {
-        return nroUsuario;
-    }
-
-    public void setNroUsuario(Usuarios nroUsuario) {
-        this.nroUsuario = nroUsuario;
+    public void setNroUsuarioFk(Usuarios nroUsuarioFk) {
+        this.nroUsuarioFk = nroUsuarioFk;
     }
 
     @Override

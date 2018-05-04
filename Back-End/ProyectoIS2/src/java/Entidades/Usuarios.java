@@ -54,7 +54,7 @@ public class Usuarios implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "password")
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nroUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nroUsuarioFk")
     private Collection<Tareas> tareasCollection;
 
     public Usuarios() {
