@@ -26,7 +26,15 @@
         <activity android:name=".ListaUsuariosActivity" />
         <activity android:name=".RegistroUsuarioActivity" />
         <activity android:name=".EliminarUsuarioActivity" />
-        <activity android:name=".EditarUsuarioActivity" android:configChanges="screenSize|orientation" android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".EditarUsuarioActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".MenuTareasActivity" />
+        <activity android:name=".ListaTareasActivity" />
+        <activity android:name=".RegistroTareaActivity" />
+        <activity android:name=".EditarTareaActivity" />
+        <activity android:name=".EliminarTareaActivity"></activity>
     </application>
 
 </manifest>

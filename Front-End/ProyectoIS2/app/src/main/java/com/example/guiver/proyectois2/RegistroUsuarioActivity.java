@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class RegistroUsuarioActivity extends AppCompatActivity {
+    Connection connection = new Connection();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +28,12 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
         Intent intent = getIntent();
     }
 
-    /*Metodo que sera llamado cuando el usuario haga click en el boton login*/
     public void registrar(View view){
 
         //recupera los valores ingresados por el usuario
         EditText editTextUserName = (EditText) findViewById(R.id.editText3);
         EditText editTextPassword = (EditText) findViewById(R.id.editText4);
-        int resp;
+        String resp;
         //crea el objeto json que se enviara con la peticion
         JSONObject userParams = new JSONObject();
 
@@ -46,8 +46,8 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
         try {
             String url = MainActivity.URL_BASE + "/entidades.usuarios";
-            resp = executePost(url, userParams.toString());
-            if (resp != 204){
+            resp = connection.executePost(url, userParams.toString(), this);
+            if (resp== null){
                 Toast.makeText(this,"Error, no se pudo completar el registro", 5).show();
                 return;
             }
@@ -57,47 +57,6 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
             Toast.makeText(this,"No se pudo conectar con el servidor", 5).show();
         }
 
-
-    }
-
-    /*Metodo que realiza la conexion con el servidor y solicita el servicio post del login*/
-    public int executePost(String targetURL,String urlParameters) {
-        int timeout=5000;
-        URL url;
-        HttpURLConnection connection = null;
-        try {
-            //establece la conexion
-
-            url = new URL(targetURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-
-            connection.setUseCaches(false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setConnectTimeout(timeout);
-            connection.setReadTimeout(timeout);
-
-            //envia la peticion
-            DataOutputStream wr = new DataOutputStream(
-                    connection.getOutputStream());
-            wr.writeBytes(urlParameters);
-            wr.flush();
-            wr.close();
-
-            return connection.getResponseCode();
-
-        } catch (Exception e) {
-            Toast.makeText(this,"Error de conexión", 10).show();
-            e.printStackTrace();
-        } finally {
-
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-        return 1;
     }
 
 }

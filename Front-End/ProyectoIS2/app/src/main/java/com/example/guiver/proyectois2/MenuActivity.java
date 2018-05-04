@@ -38,7 +38,9 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void menuTareas(View view){
-        Toast.makeText(this,"En construcción", 5).show();
+        //Toast.makeText(this,"En construcción", 5).show();
+        Intent intent = new Intent(this, MenuTareasActivity.class);
+        startActivity(intent);
     }
 
 

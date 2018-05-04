@@ -16,6 +16,8 @@ public class ListaUsuariosActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String message1 = intent.getStringExtra("usuario");
         String message2 = intent.getStringExtra("pass");
+        String message3 = intent.getStringExtra("fec");
+        String message4 = intent.getStringExtra("estado");
 
         //establece un nuevo text al textView
         TextView textView = findViewById(R.id.textView8);

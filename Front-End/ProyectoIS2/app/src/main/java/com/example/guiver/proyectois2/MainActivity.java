@@ -1,10 +1,12 @@
 package com.example.guiver.proyectois2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,7 +23,9 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     //se utilizara como clave para el valor a enviar a traves del intent
     public static final String EXTRA_MESSAGE = "com.example.guiver.proyectois2.MESSAGE";
-    public static final String URL_BASE = "http://192.168.1.2:8080/ProyectoIS2/webresources";
+    public static final String URL_BASE = "http://192.168.1.8:8080/ProyectoIS2/webresources";
+    public static int IdUsuario;
+    public static JSONObject Usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         EditText editTextUserName = (EditText) findViewById(R.id.editText);
         EditText editTextPassword = (EditText) findViewById(R.id.editText2);
         String message;
+        //crea el objeto que realiza la peticion al servidor
+        Connection connection = new Connection();
         //crea el objeto json que se enviara con la peticion
         JSONObject loginParams = new JSONObject();
 
@@ -51,68 +57,25 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         try {
             String url = URL_BASE + "/entidades.usuarios/login";
-            message = executePost(url, loginParams.toString());
-            if (message.equals("")){
+            message = connection.executePost(url, loginParams.toString(), this);
+            if (message.equals("") || message == null){
                 Toast.makeText(this,"Login fallido", 5).show();
                 return;
             }
+            //almacena los datos del usuario en formato String
+            Usuario = new JSONObject(message); //convierte a JSONObject
+            IdUsuario = Usuario.getInt("nroUsuario");// recupera el id del usuario
+
             intent.putExtra(EXTRA_MESSAGE, editTextUserName.getText().toString());
             startActivity(intent);
         }
         catch(NullPointerException e){
             Toast.makeText(this,"No se pudo conectar con el servidor", 5).show();
-        }
-
-
-    }
-
-    /*Metodo que realiza la conexion con el servidor y solicita el servicio post del login*/
-    public String executePost(String targetURL,String urlParameters) {
-        int timeout=5000;
-        URL url;
-        HttpURLConnection connection = null;
-        try {
-            //establece la conexion
-
-            url = new URL(targetURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-
-            connection.setUseCaches(false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setConnectTimeout(timeout);
-            connection.setReadTimeout(timeout);
-
-            //envia la peticion
-            DataOutputStream wr = new DataOutputStream(
-                    connection.getOutputStream());
-            wr.writeBytes(urlParameters);
-            wr.flush();
-            wr.close();
-
-            // obtiene la respuesta
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            return response.toString();
-
-        } catch (Exception e) {
-            Toast.makeText(this,"Error de conexión.", 10).show();
+        } catch (JSONException e) {
             e.printStackTrace();
-        } finally {
-
-            if (connection != null) {
-                connection.disconnect();
-            }
         }
-        return null;
+
+
     }
+
 }

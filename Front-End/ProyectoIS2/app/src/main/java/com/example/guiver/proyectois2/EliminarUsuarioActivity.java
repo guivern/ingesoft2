@@ -21,7 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class EliminarUsuarioActivity extends AppCompatActivity {
-
+    Connection connection = new Connection();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +51,7 @@ public class EliminarUsuarioActivity extends AppCompatActivity {
         try {
             String url = MainActivity.URL_BASE+ "/entidades.usuarios/" + editTextId.getText().toString();
             //Toast.makeText(this,url, 5).show();
-            resp = executeDelete(url);
+            resp = connection.executeDelete(url, this);
             //Toast.makeText(this, resp, 5).show();
 
             if (resp.equals("")){
@@ -68,41 +68,4 @@ public class EliminarUsuarioActivity extends AppCompatActivity {
 
     }
 
-    /*Metodo que realiza la conexion con el servidor y solicita el servicio delete*/
-    public String executeDelete(String targetURL) {
-        int timeout=5000;
-        URL url;
-        HttpURLConnection connection = null;
-        try {
-            //establece la conexion
-
-            url = new URL(targetURL);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("DELETE");
-
-
-            // obtiene la respuesta
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-
-            return response.toString();
-
-        } catch (Exception e) {
-            Toast.makeText(this,"Algo salió mal.", 10).show();
-            e.printStackTrace();
-        } finally {
-
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-        return null;
-    }
 }
