@@ -34,7 +34,8 @@
         <activity android:name=".ListaTareasActivity" />
         <activity android:name=".RegistroTareaActivity" />
         <activity android:name=".EditarTareaActivity" />
-        <activity android:name=".EliminarTareaActivity"></activity>
+        <activity android:name=".EliminarTareaActivity" />
+        <activity android:name=".CambiarEstadoActivity"></activity>
     </application>
 
 </manifest>

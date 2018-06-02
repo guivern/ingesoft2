@@ -1,8 +1,10 @@
 package com.example.guiver.proyectois2;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +25,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     //se utilizara como clave para el valor a enviar a traves del intent
     public static final String EXTRA_MESSAGE = "com.example.guiver.proyectois2.MESSAGE";
-    public static final String URL_BASE = "http://192.168.1.8:8080/ProyectoIS2/webresources";
+    public static final String URL_BASE = "http://192.168.1.4:8080/ProyectoIS2/webresources";
     public static int IdUsuario;
     public static JSONObject Usuario;
 
@@ -74,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 
 }

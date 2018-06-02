@@ -116,6 +116,38 @@ public class MenuTareasActivity extends AppCompatActivity {
         intent.putExtra("tarea", tareas);
         intent.putExtra("id", idTareas);
         startActivity(intent);
+    }
+
+    public void estado(View view) throws JSONException {
+
+        String url = MainActivity.URL_BASE + "/entidades.tareas";
+        JSONArray tareasJSON = connection.executeGetJSON(url, this);
+
+        String tareas ="";
+        String idTareas="";
+        String estados="";
+
+        for(int i=0; i<tareasJSON.length(); i++)
+        {
+            JSONObject obj = tareasJSON.getJSONObject(i);
+
+            String tarea = obj.getString("titulo");
+            String idTarea = obj.getString("nroTarea");
+            String estado = obj.getJSONObject("tareaNroEstado").getString("estado");
+            int idUser = obj.getJSONObject("nroUsuarioFk").getInt("nroUsuario");
+            //solo recupera las tareas que pertenecen al usuario actual
+            if(MainActivity.IdUsuario == idUser){
+                tareas += tarea +"\n";
+                idTareas += idTarea +"\n";
+                estados += estado + "\n";
+            }
+        }
+        Intent intent = new Intent(this, CambiarEstadoActivity.class);
+        intent.putExtra("tarea", tareas);
+        intent.putExtra("id", idTareas);
+        intent.putExtra("estado", estados);
+        startActivity(intent);
 
     }
+
 }
