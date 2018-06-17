@@ -17,6 +17,7 @@ public class MenuTareasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_tareas);
+
     }
     public void listar(View view) throws JSONException {
 
@@ -27,6 +28,8 @@ public class MenuTareasActivity extends AppCompatActivity {
         String idTareas="";
         String estados="";
         String fechas="";
+        String usuarios="";
+        int cont = 0;
 
         for(int i=0; i<tareasJSON.length(); i++)
         {
@@ -36,13 +39,28 @@ public class MenuTareasActivity extends AppCompatActivity {
             String idTarea = obj.getString("nroTarea");
             String fecha = obj.getString("fechaFin").substring(0,10);
             String estado = obj.getJSONObject("tareaNroEstado").getString("estado");
+            String usuario = obj.getJSONObject("nroUsuarioFk").getString("usuario");
             int idUser = obj.getJSONObject("nroUsuarioFk").getInt("nroUsuario");
-            //solo recupera las tareas que pertenecen al usuario actual
-            if(MainActivity.IdUsuario == idUser){
+
+
+            String usuarioActual = MainActivity.Usuario.get("usuario").toString();
+
+            if(usuarioActual.equals(MainActivity.usuarioAdmin)){//si es Admin
+                //Recupera todas las tareas para el usuario admin
                 tareas += tarea +"\n";
                 idTareas += idTarea +"\n";
                 estados += estado + "\n";
                 fechas += fecha + "\n";
+                usuarios += usuario + "\n";
+                cont++;
+            }
+            else if(MainActivity.IdUsuario == idUser){//no es Admin
+                //solo recupera las tareas que pertenecen al usuario actual
+                tareas += tarea +"\n";
+                idTareas += idTarea +"\n";
+                estados += estado + "\n";
+                fechas += fecha + "\n";
+                cont++;
             }
         }
         Intent intent = new Intent(this, ListaTareasActivity.class);
@@ -50,6 +68,8 @@ public class MenuTareasActivity extends AppCompatActivity {
         intent.putExtra("id", idTareas);
         intent.putExtra("fec", fechas);
         intent.putExtra("estado", estados);
+        intent.putExtra("cont", cont);
+        intent.putExtra("usuario", usuarios);
         startActivity(intent);
 
     }

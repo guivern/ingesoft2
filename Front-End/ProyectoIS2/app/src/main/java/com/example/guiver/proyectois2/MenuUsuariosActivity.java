@@ -20,11 +20,21 @@ import java.net.URL;
 
 public class MenuUsuariosActivity extends AppCompatActivity {
     Connection connection = new Connection();
+    String usuarioActual;
+
+    {
+        try {
+            usuarioActual = MainActivity.Usuario.getString("usuario");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_usuarios);
+
 
     }
 
@@ -36,6 +46,7 @@ public class MenuUsuariosActivity extends AppCompatActivity {
 
         String usuarios ="";
         String passwords="";
+        String ids="";
 
         for(int i=0; i<usuariosJSON.length(); i++)
         {
@@ -43,67 +54,98 @@ public class MenuUsuariosActivity extends AppCompatActivity {
 
             String nombre = obj.getString("usuario");
             String pwd = obj.getString("password");
+            String id = obj.getString("nroUsuario");
             usuarios += nombre +"\n";
             passwords += pwd +"\n";
+            ids += id + "\n";
         }
         Intent intent = new Intent(this, ListaUsuariosActivity.class);
         intent.putExtra("usuario", usuarios);
         intent.putExtra("pass", passwords);
+        intent.putExtra("id", ids);
+        intent.putExtra("cont",usuariosJSON.length());
+
+
         startActivity(intent);
 
     }
 
     public void agregar(View view){
+        if(usuarioActual.equals(MainActivity.usuarioAdmin)){
+            Intent intent = new Intent(this, RegistroUsuarioActivity.class);
+            intent.putExtra("padre","menuUsuario");
+            startActivity(intent);
 
-        Intent intent = new Intent(this, RegistroUsuarioActivity.class);
-        startActivity(intent);
+        }
+        else {
+            Toast.makeText(this,"No posee privilegios de administrador", 20).show();
+        }
+
     }
+
 
     public void editar(View view) throws JSONException {
         //Toast.makeText(this,"En construcción", 5).show();
         /*Intent intent = new Intent(this, EditarUsuarioActivity.class);
         startActivity(intent);*/
+
+        Intent intent = new Intent(this, EditarUsuarioActivity.class);
         String url = MainActivity.URL_BASE + "/entidades.usuarios";
         JSONArray usuariosJSON = connection.executeGetJSON(url, this);
 
-        String usuarios ="";
-        String ids="";
+        if(usuarioActual.equals(MainActivity.usuarioAdmin)){
+            String usuarios ="";
+            String ids="";
 
-        for(int i=0; i<usuariosJSON.length(); i++)
-        {
-            JSONObject obj = usuariosJSON.getJSONObject(i);
+            for(int i=0; i<usuariosJSON.length(); i++)
+            {
+                JSONObject obj = usuariosJSON.getJSONObject(i);
 
-            String nombre = obj.getString("usuario");
-            String id = obj.getString("nroUsuario");
-            usuarios += nombre +"\n";
-            ids += id +"\n";
+                String nombre = obj.getString("usuario");
+                String id = obj.getString("nroUsuario");
+                usuarios += nombre +"\n";
+                ids += id +"\n";
+            }
+
+            intent.putExtra("usuario", usuarios);
+            intent.putExtra("ids", ids);
         }
-        Intent intent = new Intent(this, EditarUsuarioActivity.class);
-        intent.putExtra("usuario", usuarios);
-        intent.putExtra("ids", ids);
+        else {
+            intent.putExtra("id",MainActivity.IdUsuario);
+        }
+
         startActivity(intent);
+
     }
 
     public void eliminar(View view) throws JSONException{
-        String url = MainActivity.URL_BASE + "/entidades.usuarios";
-        JSONArray usuariosJSON = connection.executeGetJSON(url, this);
+        if(usuarioActual.equals(MainActivity.usuarioAdmin)){
+            String url = MainActivity.URL_BASE + "/entidades.usuarios";
+            JSONArray usuariosJSON = connection.executeGetJSON(url, this);
 
-        String usuarios ="";
-        String ids="";
+            String usuarios ="";
+            String ids="";
 
-        for(int i=0; i<usuariosJSON.length(); i++)
-        {
-            JSONObject obj = usuariosJSON.getJSONObject(i);
+            for(int i=0; i<usuariosJSON.length(); i++)
+            {
+                JSONObject obj = usuariosJSON.getJSONObject(i);
 
-            String nombre = obj.getString("usuario");
-            String id = obj.getString("nroUsuario");
-            usuarios += nombre +"\n";
-            ids += id +"\n";
+                String nombre = obj.getString("usuario");
+                String id = obj.getString("nroUsuario");
+                usuarios += nombre +"\n";
+                ids += id +"\n";
+            }
+            Intent intent = new Intent(this, EliminarUsuarioActivity.class);
+            intent.putExtra("usuario", usuarios);
+            intent.putExtra("ids", ids);
+            startActivity(intent);
+
         }
-        Intent intent = new Intent(this, EliminarUsuarioActivity.class);
-        intent.putExtra("usuario", usuarios);
-        intent.putExtra("ids", ids);
-        startActivity(intent);
+        else {
+            Toast.makeText(this,"No posee privilegios de administrador", 20).show();
+        }
+
+
 
     }
 }

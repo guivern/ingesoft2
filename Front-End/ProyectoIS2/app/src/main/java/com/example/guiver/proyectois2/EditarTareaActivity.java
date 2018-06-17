@@ -48,7 +48,10 @@ public class EditarTareaActivity extends AppCompatActivity {
         EditText editTextDescripcion= (EditText) findViewById(R.id.editText14);
         EditText editTextFecha= (EditText) findViewById(R.id.editText17);
 
-
+        if(editTextId.getText().toString().equals("")){
+            Toast.makeText(this,"Debe ingresar un id", 10).show();
+            return;
+        }
 
         String url = MainActivity.URL_BASE + "/entidades.tareas/" + editTextId.getText().toString();
         try {
@@ -78,6 +81,11 @@ public class EditarTareaActivity extends AppCompatActivity {
         EditText editTextDescripcion= (EditText) findViewById(R.id.editText14);
         EditText editTextFecha= (EditText) findViewById(R.id.editText17);
 
+        if(editTextId.getText().toString().equals("")){
+            Toast.makeText(this,"Debe ingresar un id", 10).show();
+            return;
+        }
+
         String url = MainActivity.URL_BASE + "/entidades.tareas/" + editTextId.getText().toString();
 
         //crea el objeto json que se enviara con la peticion
@@ -102,10 +110,14 @@ public class EditarTareaActivity extends AppCompatActivity {
 
             connection.executePut(url, loginParams.toString(),this);
             Toast.makeText(this,"Se realizo la modificación con éxito.", 10).show();
+            finish();
         } catch (JSONException e) {
             Toast.makeText(this,"Ocurrio un error. No Se realizó la modificación.", 10).show();
         }
 
+    }
+    public void cancelar(View view){
+        finish();
     }
 
 }

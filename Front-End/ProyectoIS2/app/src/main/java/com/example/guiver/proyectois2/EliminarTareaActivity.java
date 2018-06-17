@@ -36,6 +36,11 @@ public class EliminarTareaActivity extends AppCompatActivity {
         //recupera los valores ingresados por el usuario
         EditText editTextId = (EditText) findViewById(R.id.editText15);
 
+        if(editTextId.getText().toString().equals("")){
+            Toast.makeText(this,"Debe ingresar un id", 5).show();
+            return;
+        }
+
         String resp;
 
         try {
@@ -46,7 +51,7 @@ public class EliminarTareaActivity extends AppCompatActivity {
 
             if (resp.equals("")){
                 Toast.makeText(this,"Eliminación exitosa.", 5).show();
-                return;
+                finish();
             }
             //intent.putExtra(EXTRA_MESSAGE, editTextUserName.getText().toString());
             //startActivity(intent);
@@ -56,6 +61,10 @@ public class EliminarTareaActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void cancelar(View view){
+        finish();
     }
 
 }

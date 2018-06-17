@@ -51,7 +51,10 @@ public class CambiarEstadoActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         EditText editTextId = (EditText) findViewById(R.id.editText16);
-
+        if(editTextId.getText().toString().equals("")){
+            Toast.makeText(this,"Debe ingresar un id", 10).show();
+            return;
+        }
 
         String url = MainActivity.URL_BASE + "/entidades.tareas/" + editTextId.getText().toString();
         try {
@@ -79,6 +82,11 @@ public class CambiarEstadoActivity extends AppCompatActivity {
         //crea el objeto json que se enviara con la peticion
         JSONObject loginParams = new JSONObject();
         JSONObject nroEstado = new JSONObject();
+
+        if(editTextId.getText().toString().equals("")){
+            Toast.makeText(this,"Debe ingresar un id", 10).show();
+            return;
+        }
 
         try{
             if(radioButton1.isChecked()) {
@@ -111,10 +119,15 @@ public class CambiarEstadoActivity extends AppCompatActivity {
 
             connection.executePut(url, loginParams.toString(),this);
             Toast.makeText(this,"La tarea cambio de estado a: " + nroEstado.getString("estado"), 10).show();
+            finish();
         } catch (JSONException e) {
             Toast.makeText(this,"Ocurrio un error. No Se realizó la modificación.", 10).show();
         }
 
+    }
+
+    public void cancelar(View view){
+        finish();
     }
 
 }

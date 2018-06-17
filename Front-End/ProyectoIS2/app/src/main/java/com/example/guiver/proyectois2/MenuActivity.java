@@ -30,7 +30,7 @@ public class MenuActivity extends AppCompatActivity {
 
         //establece un nuevo text al textView
         TextView textView = findViewById(R.id.textView5);
-        textView.setText("Usuario: " + message);
+        textView.setText("usuario: " + MainActivity.usuarioActual);
 
     }
 
@@ -38,6 +38,13 @@ public class MenuActivity extends AppCompatActivity {
         //Toast.makeText(this,"En construcción", 5).show();
         Intent intent = new Intent(this, MenuUsuariosActivity.class);
         startActivity(intent);
+    }
+
+    public void salir(View view){
+        //Toast.makeText(this,"En construcción", 5).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void menuTareas(View view){

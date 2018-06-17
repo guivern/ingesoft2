@@ -9,6 +9,7 @@
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/constraintLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.guiver.proyectois2.EditarUsuarioActivity">
@@ -46,6 +47,7 @@
             android:layout_marginTop="16dp"
             android:text="Usuario"
             android:textAlignment="center"
+            android:textAllCaps="true"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -59,6 +61,7 @@
             android:layout_marginTop="16dp"
             android:text="Id Usuario"
             android:textAlignment="center"
+            android:textAllCaps="true"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView18"
@@ -70,11 +73,14 @@
             android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:text="Editar Usuario"
             android:textAlignment="center"
+            android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView21"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +125,7 @@
 
         <EditText
             android:id="@+id/editText6"
-            android:layout_width="133dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
@@ -131,7 +137,7 @@
 
         <EditText
             android:id="@+id/editText8"
-            android:layout_width="133dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ems="10"
@@ -143,13 +149,17 @@
 
         <Button
             android:id="@+id/button14"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="16dp"
             android:onClick="editar"
-            android:text="Editar"
+            android:text="editar usuario"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.272"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText8" />
 
@@ -185,6 +195,22 @@
             app:layout_constraintHorizontal_bias="0.629"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText6" />
+
+        <Button
+            android:id="@+id/button26"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="8dp"
+            android:onClick="cancelar"
+            android:text="Cancelar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button14" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

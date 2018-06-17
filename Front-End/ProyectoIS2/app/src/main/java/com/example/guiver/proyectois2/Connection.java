@@ -137,7 +137,8 @@ public class Connection {
             return response.toString();
 
         } catch (Exception e) {
-            Toast.makeText(context,"Error de conexión", 10).show();
+            //Toast.makeText(context,"Error de conexión", 10).show();
+            Toast.makeText(context,e.getMessage(), 10).show();
             e.printStackTrace();
         } finally {
 

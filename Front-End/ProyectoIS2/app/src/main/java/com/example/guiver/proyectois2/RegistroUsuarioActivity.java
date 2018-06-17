@@ -20,12 +20,14 @@ import java.net.URL;
 
 public class RegistroUsuarioActivity extends AppCompatActivity {
     Connection connection = new Connection();
+    String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_usuario);
         Intent intent = getIntent();
+        data = intent.getStringExtra("padre");
     }
 
     public void registrar(View view){
@@ -34,6 +36,12 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
         EditText editTextUserName = (EditText) findViewById(R.id.editText3);
         EditText editTextPassword = (EditText) findViewById(R.id.editText4);
         String resp;
+
+        if(editTextPassword.getText().toString().equals("") || editTextUserName.getText().toString().equals("")){
+            Toast.makeText(this,"Debe completar los campos", 5).show();
+            return;
+        }
+
         //crea el objeto json que se enviara con la peticion
         JSONObject userParams = new JSONObject();
 
@@ -52,11 +60,16 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                 return;
             }
             Toast.makeText(this,"Registro exitoso", 5).show();
+             finish();
         }
         catch(NullPointerException e){
             Toast.makeText(this,"No se pudo conectar con el servidor", 5).show();
         }
 
+    }
+
+    public void cancelar(View view){
+        finish();
     }
 
 }

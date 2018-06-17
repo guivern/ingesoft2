@@ -1,11 +1,19 @@
 package com.example.guiver.proyectois2;
 
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +31,7 @@ public class RegistroTareaActivity extends AppCompatActivity {
         //recupera los valores ingresados por el usuario
         EditText editTextTitulo = (EditText) findViewById(R.id.editText10);
         EditText editTextDescripcion = (EditText) findViewById(R.id.editText12);
-        EditText editTextFecha = (EditText) findViewById(R.id.editText13);
+        EditText editTextFecha = (EditText) findViewById(R.id.editText18);
         String resp;
         //crea el objeto json que se enviara con la peticion
         JSONObject userParams = new JSONObject();
@@ -54,11 +62,15 @@ public class RegistroTareaActivity extends AppCompatActivity {
                 return;
             }
             Toast.makeText(this,"Registro exitoso", 5).show();
+            finish();
         }
         catch(NullPointerException e){
             Toast.makeText(this,"No se pudo conectar con el servidor", 5).show();
         }
 
+    }
+    public void cancelar(View view){
+        finish();
     }
 
 }

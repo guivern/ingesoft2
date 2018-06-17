@@ -25,9 +25,12 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     //se utilizara como clave para el valor a enviar a traves del intent
     public static final String EXTRA_MESSAGE = "com.example.guiver.proyectois2.MESSAGE";
-    public static final String URL_BASE = "http://192.168.1.4:8080/ProyectoIS2/webresources";
+    public static final String URL_BASE = "http://10.42.0.1:8080/ProyectoIS2/webresources";
     public static int IdUsuario;
     public static JSONObject Usuario;
+    public static String usuarioAdmin = "Admin";
+    public static String passAdmin = "1233";
+    public static String usuarioActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +67,32 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,"Login fallido", 5).show();
                 return;
             }
-            //almacena los datos del usuario en formato String
+            //almacena los datos del usuario
             Usuario = new JSONObject(message); //convierte a JSONObject
             IdUsuario = Usuario.getInt("nroUsuario");// recupera el id del usuario
+            usuarioActual = Usuario.getString("usuario");
+
+
 
             intent.putExtra(EXTRA_MESSAGE, editTextUserName.getText().toString());
             startActivity(intent);
+            finish();
         }
         catch(NullPointerException e){
             Toast.makeText(this,"No se pudo conectar con el servidor", 5).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void registrarse(View view){
+        Intent intent = new Intent(this, RegistroUsuarioActivity.class);
+        intent.putExtra("padre","login");
+        startActivity(intent);
+    }
+
+    public void salir(View view){
+        System.exit(0);
     }
 
 }
